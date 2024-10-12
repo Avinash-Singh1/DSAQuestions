@@ -1,0 +1,31 @@
+-- Step 1: Initialize @sql to NULL
+SET @sql = NULL;
+
+-- Step 2: Generate the dynamic SQL based on distinct state names
+SELECT
+  GROUP_CONCAT(DISTINCT
+    CONCAT(
+      'SUM(CASE WHEN state = ''',
+      state,
+      ''' THEN sales ELSE 0 END) AS `',
+      state, 'Sales`'
+    )
+  ) INTO @sql
+FROM state_sales;
+
+-- Step 3: Append the SQL to the main SELECT query
+SET @sql = CONCAT('SELECT ', @sql, ' FROM state_sales');
+-- Step 4: Display the dynamically generated SQL (optional, for debugging purposes)
+SELECT @sql;
+-- Step 5: Prepare and execute the dynamically generated query
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+-- Step 6: Deallocate the prepared statement
+DEALLOCATE PREPARE stmt;
+
+SELECT 
+sum(case when state='Jharkhand' then Sales else 0 end) as JharkhandSales,
+sum(case when state='Bihar' then Sales else 0 end) as BiharSales,
+sum(case when state='Maharastra' then Sales else 0 end) as MaharastraSales
+ FROM mvc.state_sales;
+ 

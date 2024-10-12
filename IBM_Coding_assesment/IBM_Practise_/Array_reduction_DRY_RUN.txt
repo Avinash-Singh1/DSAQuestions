@@ -1,0 +1,92 @@
+Let's perform a dry run of the provided code for the input arr1 = {2, 3, 4, 5, 7}.
+
+Initial Array:
+makefile
+Copy code
+arr = [2, 3, 4, 5, 7]
+total_cost = 0
+First Iteration:
+Find Minimum and Maximum Elements:
+
+min_element_it = min_element(arr.begin(), arr.end()) -> min_element = 2
+max_element_it = max_element(arr.begin(), arr.end()) -> max_element = 7
+Calculate the Cost:
+
+cost = ceil(static_cast<double>(min_element + max_element) / (max_element - min_element + 1))
+cost = ceil((2 + 7) / (7 - 2 + 1))
+cost = ceil(9 / 6) = 2
+Remove Min and Max Elements:
+
+Remove 7 (index 4), then remove 2 (index 0 after removal of 7):
+arr = [3, 4, 5]
+Add Their Sum Back to the Array:
+
+arr.push_back(2 + 7)
+arr = [3, 4, 5, 9]
+Update Total Cost:
+
+total_cost = 0 + 2 = 2
+Second Iteration:
+Find Minimum and Maximum Elements:
+
+min_element = 3
+max_element = 9
+Calculate the Cost:
+
+cost = ceil((3 + 9) / (9 - 3 + 1))
+cost = ceil(12 / 7) = 2
+Remove Min and Max Elements:
+
+Remove 9 (index 3), then remove 3 (index 0 after removal of 9):
+arr = [4, 5]
+Add Their Sum Back to the Array:
+
+arr.push_back(3 + 9)
+arr = [4, 5, 12]
+Update Total Cost:
+
+total_cost = 2 + 2 = 4
+Third Iteration:
+Find Minimum and Maximum Elements:
+
+min_element = 4
+max_element = 12
+Calculate the Cost:
+
+cost = ceil((4 + 12) / (12 - 4 + 1))
+cost = ceil(16 / 9) = 2
+Remove Min and Max Elements:
+
+Remove 12 (index 2), then remove 4 (index 0 after removal of 12):
+arr = [5]
+Add Their Sum Back to the Array:
+
+arr.push_back(4 + 12)
+arr = [5, 16]
+Update Total Cost:
+
+total_cost = 4 + 2 = 6
+Fourth Iteration:
+Find Minimum and Maximum Elements:
+
+min_element = 5
+max_element = 16
+Calculate the Cost:
+
+cost = ceil((5 + 16) / (16 - 5 + 1))
+cost = ceil(21 / 12) = 2
+Remove Min and Max Elements:
+
+Remove 16 (index 1), then remove 5 (index 0 after removal of 16):
+arr = []
+Add Their Sum Back to the Array:
+
+arr.push_back(5 + 16)
+arr = [21]
+Update Total Cost:
+
+total_cost = 6 + 2 = 8
+Final State:
+The array has been reduced to a single element.
+total_cost = 8
+Output:

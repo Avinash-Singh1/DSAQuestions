@@ -1,0 +1,132 @@
+Let's dry run the code using the provided inputs:
+
+components = "aaaaabbbccc"
+minLength = 2
+maxLength = 4
+maxUnique = 26
+Initial Setup
+n = 11 (length of the string "aaaaabbbccc")
+substring_count is an empty unordered_map used to store the frequency of each substring.
+maxOccurrence is initialized to 0.
+Outer Loop (Iterating Over Start Index i)
+The outer loop runs from i = 0 to i = n-1. Let's go through each iteration.
+
+i = 0:
+
+substring = "", charcount = {}
+Inner Loop (Iterating Over End Index j):
+
+j = 0:
+substring = "a"
+charcount = {'a': 1}
+Since charcount.size() <= maxUnique and substring.size() >= minLength, the substring "a" is not added to substring_count because it has less than minLength = 2.
+j = 1:
+substring = "aa"
+charcount = {'a': 2}
+The substring "aa" is added to substring_count: substring_count = {"aa": 1}, and maxOccurrence = 1.
+j = 2:
+substring = "aaa"
+charcount = {'a': 3}
+The substring "aaa" is added to substring_count: substring_count = {"aa": 1, "aaa": 1}, and maxOccurrence = 1.
+j = 3:
+substring = "aaaa"
+charcount = {'a': 4}
+The substring "aaaa" is added to substring_count: substring_count = {"aa": 1, "aaa": 1, "aaaa": 1}, and maxOccurrence = 1.
+i = 1:
+
+substring = "", charcount = {}
+Inner Loop:
+
+j = 1:
+substring = "a"
+charcount = {'a': 1}
+The substring "a" is not added because it has less than minLength = 2.
+j = 2:
+substring = "aa"
+charcount = {'a': 2}
+The substring "aa" is updated in substring_count: substring_count = {"aa": 2, "aaa": 1, "aaaa": 1}, and maxOccurrence = 2.
+j = 3:
+substring = "aaa"
+charcount = {'a': 3}
+The substring "aaa" is updated in substring_count: substring_count = {"aa": 2, "aaa": 2, "aaaa": 1}, and maxOccurrence = 2.
+j = 4:
+substring = "aaaa"
+charcount = {'a': 4}
+The substring "aaaa" is updated in substring_count: substring_count = {"aa": 2, "aaa": 2, "aaaa": 2}, and maxOccurrence = 2.
+i = 2:
+
+substring = "", charcount = {}
+Inner Loop:
+
+j = 2:
+substring = "a"
+charcount = {'a': 1}
+The substring "a" is not added because it has less than minLength = 2.
+j = 3:
+substring = "aa"
+charcount = {'a': 2}
+The substring "aa" is updated in substring_count: substring_count = {"aa": 3, "aaa": 2, "aaaa": 2}, and maxOccurrence = 3.
+j = 4:
+substring = "aaa"
+charcount = {'a': 3}
+The substring "aaa" is updated in substring_count: substring_count = {"aa": 3, "aaa": 3, "aaaa": 2}, and maxOccurrence = 3.
+j = 5:
+substring = "aaab"
+charcount = {'a': 3, 'b': 1}
+The substring "aaab" is added to substring_count: substring_count = {"aa": 3, "aaa": 3, "aaaa": 2, "aaab": 1}, and maxOccurrence = 3.
+i = 3:
+
+substring = "", charcount = {}
+Inner Loop:
+
+j = 3:
+substring = "a"
+charcount = {'a': 1}
+The substring "a" is not added because it has less than minLength = 2.
+j = 4:
+substring = "aa"
+charcount = {'a': 2}
+The substring "aa" is updated in substring_count: substring_count = {"aa": 4, "aaa": 3, "aaaa": 2, "aaab": 1}, and maxOccurrence = 4.
+j = 5:
+substring = "aab"
+charcount = {'a': 2, 'b': 1}
+The substring "aab" is added to substring_count: substring_count = {"aa": 4, "aaa": 3, "aaaa": 2, "aaab": 1, "aab": 1}, and maxOccurrence = 4.
+j = 6:
+substring = "aabb"
+charcount = {'a': 2, 'b': 2}
+The substring "aabb" is added to substring_count: substring_count = {"aa": 4, "aaa": 3, "aaaa": 2, "aaab": 1, "aab": 1, "aabb": 1}, and maxOccurrence = 4.
+i = 4:
+
+substring = "", charcount = {}
+Inner Loop:
+
+j = 4:
+substring = "a"
+charcount = {'a': 1}
+The substring "a" is not added because it has less than minLength = 2.
+j = 5:
+substring = "ab"
+charcount = {'a': 1, 'b': 1}
+The substring "ab" is added to substring_count: substring_count = {"aa": 4, "aaa": 3, "aaaa": 2, "aaab": 1, "aab": 1, "aabb": 1, "ab": 1}, and maxOccurrence = 4.
+j = 6:
+substring = "abb"
+charcount = {'a': 1, 'b': 2}
+The substring "abb" is added to substring_count: substring_count = {"aa": 4, "aaa": 3, "aaaa": 2, "aaab": 1, "aab": 1, "aabb": 1, "ab": 1, "abb": 1}, and maxOccurrence = 4.
+j = 7:
+substring = "abbb"
+charcount = {'a': 1, 'b': 3}
+The substring "abbb" is added to substring_count: substring_count = {"aa": 4, "aaa": 3, "aaaa": 2, "aaab": 1, "aab": 1, "aabb": 1, "ab": 1, "abb": 1, "abbb": 1}, and maxOccurrence = 4.
+i = 5:
+
+substring = "", charcount = {}
+Inner Loop:
+
+j = 5:
+substring = "b"
+charcount = {'b': 1}
+The substring "b" is not added because it has less than minLength = 2.
+j = 6:
+substring = "bb"
+charcount = {'b': 2}
+The substring "bb" is added to substring_count: substring_count = {"aa": 4, "aaa": 3, "aaaa": 2, "aaab": 1, "aab": 1, "aabb": 1, "ab": 1, "abb": 1, "abbb": 1, "bb": 1}, and maxOccurrence = 4.
+j = 7:

@@ -1,0 +1,88 @@
+Input
+cpp
+Copy code
+string components = "abcde";
+int minLength = 2;
+int maxLength = 3;
+int maxUnique = 3;
+Overview
+The goal is to find the maximum occurrences of any substring in the components string that:
+
+Has a length between minLength and maxLength.
+Contains at most maxUnique unique characters.
+Initial Setup
+components = "abcde"
+minLength = 2
+maxLength = 3
+maxUnique = 3
+n = 5 (length of "abcde")
+maxOccurence = 0
+Iteration for length = 2
+Initialize substring_count and charcount.
+Start iterating through the string:
+i = 0:
+currentChar = 'a', charcount = {'a': 1}
+Since i < length - 1, continue to the next iteration.
+i = 1:
+currentChar = 'b', charcount = {'a': 1, 'b': 1}
+uniqueChars = 2
+i >= length - 1 and uniqueChars <= maxUnique.
+Substring: "ab" (from index 0 to 1)
+substring_count = {"ab": 1}
+Update maxOccurence = 1
+i = 2:
+currentChar = 'c', charcount = {'a': 1, 'b': 1, 'c': 1}
+uniqueChars = 3
+i >= length, leftChar = 'a', charcount = {'b': 1, 'c': 1, 'a': 0} (remove 'a' from the map)
+uniqueChars = 2
+Substring: "bc" (from index 1 to 2)
+substring_count = {"ab": 1, "bc": 1}
+maxOccurence = 1
+i = 3:
+currentChar = 'd', charcount = {'b': 1, 'c': 1, 'd': 1}
+uniqueChars = 3
+i >= length, leftChar = 'b', charcount = {'c': 1, 'd': 1, 'b': 0} (remove 'b' from the map)
+uniqueChars = 2
+Substring: "cd" (from index 2 to 3)
+substring_count = {"ab": 1, "bc": 1, "cd": 1}
+maxOccurence = 1
+i = 4:
+currentChar = 'e', charcount = {'c': 1, 'd': 1, 'e': 1}
+uniqueChars = 3
+i >= length, leftChar = 'c', charcount = {'d': 1, 'e': 1, 'c': 0} (remove 'c' from the map)
+uniqueChars = 2
+Substring: "de" (from index 3 to 4)
+substring_count = {"ab": 1, "bc": 1, "cd": 1, "de": 1}
+maxOccurence = 1
+Iteration for length = 3
+Initialize substring_count and charcount.
+Start iterating through the string:
+i = 0:
+currentChar = 'a', charcount = {'a': 1}
+Continue to the next iteration since i < length - 1.
+i = 1:
+currentChar = 'b', charcount = {'a': 1, 'b': 1}
+Continue to the next iteration since i < length - 1.
+i = 2:
+currentChar = 'c', charcount = {'a': 1, 'b': 1, 'c': 1}
+uniqueChars = 3
+i >= length - 1 and uniqueChars <= maxUnique.
+Substring: "abc" (from index 0 to 2)
+substring_count = {"abc": 1}
+Update maxOccurence = 1
+i = 3:
+currentChar = 'd', charcount = {'a': 0, 'b': 1, 'c': 1, 'd': 1}
+Remove 'a' from the map, uniqueChars = 3
+Substring: "bcd" (from index 1 to 3)
+substring_count = {"abc": 1, "bcd": 1}
+maxOccurence = 1
+i = 4:
+currentChar = 'e', charcount = {'b': 0, 'c': 1, 'd': 1, 'e': 1}
+Remove 'b' from the map, uniqueChars = 3
+Substring: "cde" (from index 2 to 4)
+substring_count = {"abc": 1, "bcd": 1, "cde": 1}
+maxOccurence = 1
+Final Result
+After completing both iterations for length = 2 and length = 3, the maximum occurrence of any valid substring is 1.
+
+Output

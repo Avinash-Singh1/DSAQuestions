@@ -1,0 +1,230 @@
+-- Advance dbms 
+
+-- how to convert rows into column
+SELECT 
+sum(case when state='Jharkhand' then Sales else 0 end) as JharkhandSales,
+sum(case when state='Bihar' then Sales else 0 end) as BiharSales,
+sum(case when state='Maharastra' then Sales else 0 end) as MaharastraSales
+ FROM mvc.state_sales;
+ 
+ 
+-- rank , dense rank
+SELECT * FROM mvc.rank;
+select *,rank() over(order by sales desc) rnk, dense_rank() over(order by sales desc) dense_rnk,
+ row_number() over(order by sales desc) row_num from mvc.rank;
+ 
+--  patition by Department
+ select * , rank() over(partition by Department order by Salary desc) emp_rank from mvc.employee;
+ 
+-- rows betweem
+select  sum(sales) as Sum from mvc.rank;
+select *,sum(sales) over(order by date rows between 1 preceding and 1 following) total_sales_today_next_before from mvc.rank;
+select *,sum(sales) over(order by date rows between unbounded preceding and unbounded following) total_sales_today_next_before from mvc.rank;
+
+-- Running Sum in SQL
+ select *,sum(sales) over(order by date rows between unbounded preceding and 0 following) total_sales_today_next_before from mvc.rank;
+ select *,sum(sales) over(order by date rows between unbounded preceding and current row) total_sales_today_next_before from mvc.rank;
+
+ -- Running Sum in SQ
+ SELECT * FROM mvc.rank order by date;
+select *, sum(sales) over(order by Date rows between 1 preceding and 1 following) as Three_Days_sale from mvc.rank;
+
+select * , sum(sales) over(order by date rows between unbounded preceding and unbounded following) as Total_sales from mvc.rank;
+
+select * , sum(sales) over (order by date rows between unbounded preceding and current row) as previous_Todaysales from mvc.rank; 
+
+ select * , sum(sales) over (partition by state order by date rows between unbounded preceding and current row) running_total from mvc.state_sales;
+ 
+ 
+ -- First Value in SQL | Last Value SQL | Nth Value SQL
+ select *, first_value(sales) over(partition by state order by date ) first_day_sales, 
+ last_value(sales) over(partition by state order by date rows between unbounded preceding and unbounded following )last_day_sales from mvc.state_sales;
+ 
+ 
+  select *, first_value(sales) over(partition by state order by date ) first_day_sales, 
+ last_value(sales) over(partition by state order by date rows between unbounded preceding and unbounded following )last_day_sales, nth_value(sales,5) over (partition by state order by date) from mvc.state_sales;
+ 
+--  Partition By in SQL 
+
+select *, rank() over(partition by stadiumname order by runs desc) as playerRank from mvc.ground where country like "%india%";
+select * from (
+select *, rank() over(partition by stadiumname,year order by runs desc) as playerRank from mvc.ground where country like "%india%"
+) a where a.playerRank =1;
+
+select * ,first_value(playername) over(partition by stadiumname order by runs desc) highest_scorer from  mvc.ground where country ="india";
+
+
+-- running average 
+SELECT payment_date,amount, avg(amount) over(order by payment_date rows between 2 preceding and current row) as three_Day_avg
+ FROM mvc.payment;
+
+--- lead and lag
+
+ SELECT 
+    payment_date,
+    amount,
+    LEAD(amount) OVER (ORDER BY payment_date) AS next_amount,
+    amount + LEAD(amount) OVER (ORDER BY payment_date) AS total_amount
+FROM 
+    mvc.payment;
+
+-- ----------
+SELECT payment_date,amount, avg(amount) over(order by payment_date rows between 2 preceding and current row) as three_Day_avg
+ FROM mvc.payment;
+---------
+
+ SELECT
+    SUM(CASE WHEN mode = 'Cash' THEN amount ELSE 0 END) AS cash_total,
+    SUM(CASE WHEN mode = 'Credit Card' THEN amount ELSE 0 END) AS credit_card_total,
+    SUM(CASE WHEN mode = 'Debit Card' THEN amount ELSE 0 END) AS debit_card_total,
+    SUM(CASE WHEN mode = 'Mobile Payment' THEN amount ELSE 0 END) AS mobile_payment_total
+FROM
+    payment;
+
+-------------
+
+SELECT 
+  #  mode,
+    SUM(CASE 
+        WHEN mode = 'Credit Card' THEN amount 
+        ELSE 0 
+    END) AS credit_card_total,
+    SUM(CASE 
+        WHEN mode = 'Cash' THEN amount 
+        ELSE 0 
+    END) AS cash_total,
+    SUM(CASE 
+        WHEN mode = 'Debit Card' THEN amount 
+        ELSE 0 
+    END) AS debit_card_total,
+    SUM(CASE 
+        WHEN mode = 'Mobile Payment' THEN amount 
+        ELSE 0 
+    END) AS mobile_payment_total
+FROM 
+    payment
+GROUP BY 
+    mode;
+
+    -------
+    select *, case 
+		    when department ='hr' then "Human resource"
+		    when department ='Engineering' then "Engineering Depart"
+		    when department ='Sales' then "Sales Depart"
+            else "UnKnown"
+            end as D_FullName
+            from employees;
+
+ -------------------------------
+ update products
+set price = case when stock =0 then price +10
+				 when stock = 50 then price *10
+                 when stock =100 then price /10
+                 else price
+                 end;
+--------------------------------
+SELECT product_id,
+       SUM(CASE WHEN sale_date = '2024-05-01' THEN quantity ELSE 0 END) AS sales_on_may_1,
+       SUM(CASE WHEN sale_date = '2024-05-02' THEN quantity ELSE 0 END) AS sales_on_may_2
+FROM sales
+GROUP BY product_id;
+
+-----------------------------------
+SELECT name, case 
+			 when grade= "A" then "Excellent"
+             When grade ="B" then "Good"
+             when grade ="C" then "Average"
+             else "Unknown"
+             end as Status
+             from students;
+
+-----------------------------------
+
+SELECT customer_id,
+       SUM(amount) AS total_spent,
+       CASE
+           WHEN SUM(amount) < 300 THEN 'Low Spender'
+           WHEN SUM(amount) BETWEEN 300 AND 600 THEN 'Medium Spender'
+           ELSE 'High Spender'
+       END AS spending_category
+FROM orders
+GROUP BY customer_id;
+
+-----------------------------------
+SELECT e.name,
+       d.department_name,
+       CASE
+           WHEN d.department_name = 'HR' THEN 'Internal'
+           WHEN d.department_name = 'Engineering' THEN 'External'
+           ELSE 'Undefined'
+       END AS department_type
+FROM employees e
+JOIN departments d ON e.department_id = d.department_id;
+
+---------------------------------------------------
+
+select name ,salary from employees
+ where case when salary >52000 then department= "HR"
+ when salary <52000 then department="Sales" else false end;
+
+---------------------------------------------------
+
+SELECT employee_id,
+       CASE
+           WHEN year = 2023 THEN rating
+           ELSE NULL
+       END AS rating_2023,
+       CASE
+           WHEN year = 2024 THEN rating
+           ELSE NULL
+       END AS rating_2024
+FROM performance;
+
+---------------------------------------------------
+SELECT message_id,
+       sender_id,
+       recipient_id,
+       CASE
+           WHEN LENGTH(content) <15 THEN CONCAT(LEFT(content, 15), '...')
+           ELSE content
+       END AS preview
+FROM messages;
+
+---------------------------------------------------
+SELECT id,group_concat(menu_id) FROM bitool.table2 group by id;
+
+
+---------------- Group Concat types---------------------------------
+
+-----------------------Update ---------------------------------------
+
+select t1.id,t1.menuid, sum(t2.menu_id) as Total_menu
+FROM bitool.table1 t1
+join table2 t2 on t1.id = t2.id
+group by t1.id
+;
+
+update bitool.table1 t1
+join (select id , sum(menu_id) as t_menu from  table2 group by id) t2 on t1.id = t2.id
+set t1.menuid= t2.t_menu;
+
+
+select 
+#t2.sno,t2.id
+t2.id
+#,t2.menu_id
+,count(t2.id) as total_occurence
+ from bitool.table1 t1 join bitool.table2 t2 on  t1.id = t2.id
+ group by t2.id 
+# having count(t2.id) >10;
+
+-----------------------Update ---------------------------------------
+
+select t1.id, count(*)
+#, t1.userroletypeid,t1.customerId,t1.menuid,t2.stockist_id 
+from table1 t1 join table2 t2 on t1.id = t2.id
+group by t1.id;
+
+update 
+table1 t1 join (select id , count(id) as Total_count from table2 group by id)as  t2 on t1.id = t2.id
+set t1.count= t2.Total_count;
