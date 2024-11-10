@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-
+// code changed
 class SequenceDetector {
 private:
     int state;
