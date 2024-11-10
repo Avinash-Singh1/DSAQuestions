@@ -34,9 +34,9 @@ int main() {
   Solution obj;
 //   vector < int > v {1,2,3,6,7};
 //   vector < int > v {2,3,6,7};
-//   vector < int > v {1,1,1,2,2};
-  vector < int > v {10,1,2,7,6,1,5};
-  int target = 8;
+  vector < int > v {1,1,1,2,2};
+  // vector < int > v {10,1,2,7,6,1,5};
+  int target = 4;
 
   vector < vector < int >> ans = obj.combinationSum(v, target);
   cout << "Combinations are: " << endl;

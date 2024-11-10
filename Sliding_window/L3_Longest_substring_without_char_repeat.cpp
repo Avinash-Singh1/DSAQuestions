@@ -6,7 +6,6 @@ public:
         int n =s.size(); int maxlen=0;
         if(n==0)return 0;
         map<char,int>hash;
-
         while(r<n){
            
            if(hash.find(s[r])!= hash.end() && hash[s[r]]>=l)

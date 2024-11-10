@@ -10,7 +10,7 @@ int f(int ind1,int ind2,string s1,string s2,vector<vector<int>> &dp){
 int lcs(string s1,string s2){
     int n =s1.length();
     int m = s2.length();
-    vector<vector<int>>dp(n,vector<int>(m,-1));
+    vector<vector<int>>dp(n,vector<int>(m,-1)); 
 
     return f(n-1,m-1,s1,s2,dp);
 }
